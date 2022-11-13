@@ -10,10 +10,10 @@ class StyledTweetIcon extends StatelessWidget {
   String convertNumbertoK(int number) {
     if (number == 0) {
       return '';
-    } else if (number > 10000 && number % 1000 == 0) {
-      return '${(number ~/ 10000)}k';
-    } else if (number > 10000 && number % 10000 == 0) {
-      return '${(number / 10000)}k';
+    } else if (number >= 10000 && number % 1000 == 0) {
+      return '${(number ~/ 1000)}k';
+    } else if (number >= 10000 && number % 10000 == 0) {
+      return '${(number / 1000)}k';
     } else {
       return '$number';
     }
@@ -29,13 +29,13 @@ class StyledTweetIcon extends StatelessWidget {
         children: [
           Flexible(
             child: Container(
-              margin: EdgeInsets.only(right: 8.0),
+              margin: EdgeInsets.only(right: 5.0),
               child: icon,
             ),
           ),
           Flexible(
             child: Container(
-                margin: EdgeInsets.only(right: 8),
+                margin: EdgeInsets.only(right: 5),
                 child: Text(convertNumbertoK(number))),
           )
         ],

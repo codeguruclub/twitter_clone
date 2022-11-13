@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:twitter_clone/components/tweet_cards.dart';
+import 'package:twitter_clone/mockdata/mock_data.dart';
+
+import 'models/profile.dart';
 
 void main() {
   runApp(const MyApp());
@@ -43,11 +46,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
-  void _incrementCounter() {}
+  List<Tweet> getTweets() {
+    return tweets;
+  }
 
   @override
   Widget build(BuildContext context) {
-    TabController _tabController = TabController(vsync: this, length: 2);
     return SafeArea(
       child: Scaffold(
         body: CustomScrollView(
@@ -88,24 +92,14 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             ),
             SliverList(
               delegate: SliverChildBuilderDelegate(
-                (context, index) => Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                  // child: ListTile(
-                  //   tileColor:
-                  //       (index % 2 == 0) ? Colors.white : Colors.green[50],
-                  //   title: Center(
-                  //     child: Text('$index',
-                  //         style: TextStyle(
-                  //             fontWeight: FontWeight.normal,
-                  //             fontSize: 10,
-                  //             color: Colors.greenAccent[400]) //TextStyle
-                  //         ), //Text
-                  //   ), //Center
-                  // ),
-                  child: TweetCard(),
-                ), //ListTile
-                childCount: 20,
-              ), //SliverChildBuildDelegate
+                  (context, index) => Padding(
+                        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                        child: TweetCard(
+                          tweet: getTweets()[index],
+                        ),
+                      ),
+                  //ListTile
+                  childCount: getTweets().length), //SliverChildBuildDelegate
             )
           ],
         ),
@@ -138,8 +132,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           // onTap: () => {},
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: _incrementCounter,
-          tooltip: 'Increment',
+          onPressed: () => {},
+          tooltip: 'Tweet',
           child: const Icon(Icons.add),
         ), // This trailing comma makes auto-formatting nicer for build methods.
       ),

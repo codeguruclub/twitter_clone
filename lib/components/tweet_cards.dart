@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:twitter_clone/components/styled_tweet_icons.dart';
 
+import '../models/profile.dart';
+
 class TweetCard extends StatefulWidget {
-  const TweetCard({Key? key}) : super(key: key);
+  final Tweet tweet;
+  const TweetCard({Key? key, required this.tweet}) : super(key: key);
 
   @override
   State<TweetCard> createState() => _TweetCardState();
@@ -13,6 +15,11 @@ class TweetCard extends StatefulWidget {
 class _TweetCardState extends State<TweetCard> {
   @override
   Widget build(BuildContext context) {
+    bool isVerifiedProfile = widget.tweet.profile.isVerified;
+    String profileName = widget.tweet.profile.profileName;
+    String profileHandle = widget.tweet.profile.profileHandle;
+    int ageOfProfile = widget.tweet.profile.ageOfProfile;
+
     return Container(
       padding: EdgeInsets.only(top: 10, bottom: 10),
       decoration: BoxDecoration(
@@ -59,21 +66,23 @@ class _TweetCardState extends State<TweetCard> {
                                     Container(
                                       margin: EdgeInsets.only(right: 5.0),
                                       child: Text(
-                                        'Elon Musk',
+                                        widget.tweet.profile.profileName,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold),
                                       ),
                                     ),
                                     Container(
                                         margin: EdgeInsets.only(right: 5.0),
-                                        child: Icon(Icons.verified)),
+                                        child: isVerifiedProfile
+                                            ? Icon(Icons.verified)
+                                            : Text('')),
                                     Container(
                                         margin: EdgeInsets.only(right: 5.0),
-                                        child: Text('@elonmusk')),
+                                        child: Text(profileHandle)),
                                     Container(
                                         margin: EdgeInsets.only(right: 5.0),
                                         child: Text('·')),
-                                    Text('3d'),
+                                    Text("$ageOfProfile"),
                                   ],
                                 ),
                                 Icon(FontAwesomeIcons.ellipsis,
@@ -91,26 +100,27 @@ class _TweetCardState extends State<TweetCard> {
                               Flexible(
                                 child: StyledTweetIcon(
                                   icon: Icon(FontAwesomeIcons.comment),
-                                  number: 0,
+                                  number: widget.tweet.numberOfComments,
                                 ),
                               ),
                               Flexible(
                                 child: StyledTweetIcon(
                                   icon: Icon(FontAwesomeIcons.retweet),
-                                  number: 1002,
+                                  number: widget.tweet.reTweets,
                                 ),
                               ),
                               Flexible(
                                 child: StyledTweetIcon(
                                   icon: Icon(FontAwesomeIcons.heart),
-                                  number: 10,
+                                  number: widget.tweet.likes,
                                 ),
                               ),
                               Flexible(
                                 child: StyledTweetIcon(
                                   icon:
                                       Icon(FontAwesomeIcons.arrowUpFromBracket),
-                                  number: 1002,
+                                  number:
+                                      0, // this will remain zero always since we don't count the shares
                                 ),
                               )
                             ],
